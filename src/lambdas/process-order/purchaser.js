@@ -47,6 +47,7 @@ function validateSecrets({
     BEARBITE_CARD_NUMBER_LAST_4,
     BEARBITE_EXPIRATION_MM_SLASH_YYYY,
     BEARBITE_NAME_ON_CARD,
+    ENABLE_PURCHASE,
   };
 }
 
@@ -159,6 +160,11 @@ async function purchaseAmazingGiftCardWithBearbiteFunds(page, secrets) {
 
   if (shouldCompletePurchase === "true") {
     await completeCheckout(page);
+    console.info(
+      "Checkout completed. Purchased Amazing gift card with Bearbite."
+    );
+  } else {
+    console.info("ENABLE_PURCHASE is not set to 'true'; no purchase was made.");
   }
 
   return {

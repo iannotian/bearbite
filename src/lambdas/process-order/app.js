@@ -40,7 +40,9 @@ exports.lambdaHandler = async (event, context) => {
       secrets
     );
 
-    success && console.info("Successful lambda!");
+    return {
+      success,
+    };
   } catch (error) {
     console.error("Error!");
     throw error;
