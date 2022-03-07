@@ -1,0 +1,22 @@
+{
+  "name": "bearbite-purchaser",
+  "version": "0.0.1",
+  "description": "Fulfills an order.",
+  "main": "app.js",
+  "author": "Ian MacFarlane",
+  "dependencies": {
+    "otplib": "^12.0.1",
+    "playwright-aws-lambda": "^0.7.0",
+    "playwright-core": "^1.19.2"
+  },
+  "scripts": {
+    "test": "npm run test:headless",
+    "test:headed": "npx playwright test --headed",
+    "test:headless": "npx playwright test",
+    "test:headless:debug": "DEBUG=pw:api npx playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.19.2",
+    "dotenv": "^16.0.0"
+  }
+}

@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  bearbite
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 120
+    MemorySize: 1024
+
+Resources:
+  BearbiteProcessOrderFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: src/lambdas/process-order
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64 # Must be x86_64 since `playwright-aws-lambda` only supports that, as of v0.7
+      Events:
+        BearbiteProcessOrder:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /process
+            Method: post
+  BearbitePostOrderFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: src/lambdas/post-order
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - arm64
+      Events:
+        BearbiteCreateOrder:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /order
+            Method: post
+  BearbiteGetOrderFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: src/lambdas/get-order
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - arm64
+      Events:
+        BearbiteCreatePurchase:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /order
+            Method: get
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  BearbiteApi:
+    Description: "API Gateway endpoint URL for Prod stage for Bearbite functions"
+    Value: !Sub "https://bearbite.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  BearbiteProcessOrderFunction:
+    Description: "Bearbite ProcessOrder Lambda Function ARN"
+    Value: !GetAtt BearbiteProcessOrderFunction.Arn
+  BearbiteProcessOrderFunctionIamRole:
+    Description: "Implicit IAM Role created for Bearbite ProcessOrder function"
+    Value: !GetAtt BearbiteProcessOrderFunctionRole.Arn
+  BearbitePostOrderFunction:
+    Description: "Bearbite PostOrder Lambda Function ARN"
+    Value: !GetAtt BearbitePostOrderFunction.Arn
+  BearbitePostOrderFunctionIamRole:
+    Description: "Implicit IAM Role created for Bearbite PostOrder function"
+    Value: !GetAtt BearbitePostOrderFunctionRole.Arn
+  BearbiteGetOrderFunction:
+    Description: "Bearbite GetOrder Lambda Function ARN"
+    Value: !GetAtt BearbiteGetOrderFunction.Arn
+  BearbiteGetOrderFunctionIamRole:
+    Description: "Implicit IAM Role created for Bearbite GetOrder function"
+    Value: !GetAtt BearbiteGetOrderFunctionRole.Arn

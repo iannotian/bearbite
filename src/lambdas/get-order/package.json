@@ -1,0 +1,10 @@
+{
+  "name": "bearbite-get-order",
+  "version": "0.0.1",
+  "description": "Fetches an order.",
+  "main": "app.js",
+  "author": "Ian MacFarlane",
+  "dependencies": {},
+  "scripts": {},
+  "devDependencies": {}
+}

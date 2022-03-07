@@ -1,0 +1,10 @@
+{
+  "name": "bearbite-post-order",
+  "version": "0.0.1",
+  "description": "Creates an order.",
+  "main": "app.js",
+  "author": "Ian MacFarlane",
+  "dependencies": {},
+  "scripts": {},
+  "devDependencies": {}
+}
